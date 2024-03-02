@@ -60,7 +60,7 @@ if data_file is None:
   st.stop()
 else:
   df = convert_to_df(data_file)
-  df_info = st.info(f'**{data_file.name}** contains **{df.shape[0]}** rows and **{df.shape[1]}** columns! ')
+  df_info = st.info(f'**{data_file.name}** contains **{df.shape[0]}** rows and **{df.shape[1]}** columns!')
   # Check NaN.
   n_missing = df.isna().sum().sum()
   if n_missing > 0:
@@ -158,7 +158,7 @@ with st.sidebar:
     )
 
     if download_annotations is True:
-      st.success(f'**{data_file.name.split('.')[0]}_EDA.txt** has been successfully downloaded')
+      st.success(f"**{data_file.name.split('.')[0]}_EDA.txt** has been successfully downloaded")
 
 ###############################################################################################################################
 
@@ -193,7 +193,7 @@ if submit is True:
     st.pyplot(fig_barh_y, use_container_width=True)
 
     progress__actual = np.round(n_vars_processed * progress_per_var, 2)
-    progress_text_r = f'⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**).'
+    progress_text_r = f"⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**)."
     progress_bar.progress(progress__actual, text=progress_text_r)
     n_vars_processed += 1
   
@@ -231,7 +231,7 @@ if submit is True:
       st.pyplot(fig_pearson, use_container_width=True)
       
     progress__actual = np.round(n_vars_processed * progress_per_var, 2)
-    progress_text_r = f'⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**).'
+    progress_text_r = f"⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**)."
     progress_bar.progress(progress__actual, text=progress_text_r)
     n_vars_processed += 1
   
@@ -268,7 +268,7 @@ if submit is True:
         col.pyplot(fig_num, use_container_width=True)
         
         progress__actual = np.round(n_vars_processed * progress_per_var, 2)
-        progress_text_r = f'⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**).'
+        progress_text_r = f"⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**)."
         progress_bar.progress(progress__actual, text=progress_text_r)
         n_vars_processed += 1
   
@@ -291,7 +291,7 @@ if submit is True:
         elif y_dtype == 'categorical':
           n_unique_cats = df[cat].nunique()
           if n_unique_cats > 25:
-            col.write(f'`{df[cat].name}` has too many categories **{n_unique_cats}** > 20')
+            col.write(f"`{df[cat].name}` has too many categories **{n_unique_cats}** > 20")
             col.write('Unique categories:')
             col.write(pd.DataFrame(df[cat].unique(), columns=['Category']).T)
           else:
@@ -303,7 +303,7 @@ if submit is True:
         col.pyplot(fig_cat, use_container_width=True)
         
         progress__actual = np.round(n_vars_processed * progress_per_var, 2)
-        progress_text_r = f'⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**).'
+        progress_text_r = f"⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**)."
         progress_bar.progress(progress__actual, text=progress_text_r)
         n_vars_processed += 1
   

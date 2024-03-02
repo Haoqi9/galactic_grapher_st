@@ -97,7 +97,7 @@ with st.sidebar:
     )
 
     if download_annotations is True:
-      st.success(f'**{data_file.name.split('.')[0]}_prepro.txt** has been successfully downloaded')
+      st.success(f"**{data_file.name.split('.')[0]}_prepro.txt** has been successfully downloaded")
 
 # *********** Dataframe of datafile ***********
 
@@ -265,7 +265,7 @@ csv_prepro = convert_df_to_csv(df)
 download_prepro = st.download_button(
     label='💾 DOWNLOAD preprocessed data as csv file',
     data=csv_prepro,
-    file_name=f'{data_file.name.split('.')[0]}_prepro.csv',
+    file_name=f"{data_file.name.split('.')[0]}_prepro.csv",
     mime='text/csv',
 )
 st.info('Changes to uploaded data:')
@@ -273,5 +273,5 @@ st.info(f'- Duplicates dropped: **{drop_duplicate}**')
 st.info(f'- Missing values imputed: **{missing_handling}**')
 
 if download_prepro is True:
-  st.success(f'**{data_file.name.split('.')[0]}_prepro.csv** has been successfully downloaded!')
+  st.success(f"**{data_file.name.split('.')[0]}_prepro.csv** has been successfully downloaded!")
   st.balloons()
