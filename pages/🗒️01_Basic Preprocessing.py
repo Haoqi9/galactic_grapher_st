@@ -93,7 +93,7 @@ with st.sidebar:
     download_annotations = st.download_button(
       label='💾 DOWNLOAD annotations as txt file',
       data=annotations,
-      file_name=f'{data_file.name.split('.')[0]}_prepro.txt',
+      file_name = f"{data_file.name.split('.')[0]}_prepro.txt"
     )
 
     if download_annotations is True:
