@@ -193,7 +193,7 @@ def cat_num_plots(data,
         suptitle_text += f" | {extra_title}"
       
     fig.suptitle(suptitle_text, fontsize=15, fontweight='bold')
-    ax._set_title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
+    ax.set_title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
     ax.set_xticks(rotation=45, fontsize=8, ha='right')
     return fig
 
