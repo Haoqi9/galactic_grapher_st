@@ -409,3 +409,45 @@ def scatteplots_wrt_y(
     fig.suptitle(f"{x_name}", fontweight='bold')
     
     return fig
+###############################################################################################################################
+
+def kdeplot_by_class(
+    df: pd.DataFrame,
+    x_num: str,
+    y_cat: str,
+    figsize=(8,6)
+):
+    fig, ax = plt.subplots(figsize=figsize)
+
+    sns.kdeplot(
+        data=df,
+        x=x_num,
+        hue=y_cat,
+        fill=True,
+        palette='tab10',
+        ax=ax
+    )
+
+    temp = df.groupby(y_cat, observed=False)[x_num].median()
+    cats_indexes = temp.index
+    cats_medians = temp.values
+
+    y_axis = plt.ylim()[1] / 2
+    position_decrease = 1
+    y_axis_move = y_axis / position_decrease
+    for index, median in zip(cats_indexes, cats_medians):
+        ax.axvline(median, ls='--', alpha=0.2, color='blue')
+        plt.annotate(
+            text=f"{index}: {median}",
+            xy=(median, y_axis / position_decrease),
+            fontsize=6,
+            color='blue',
+        )
+        
+        position_decrease += 0.8
+
+    ax.set_ylabel('')
+    ax.set_xlabel('')
+    fig.suptitle(x_num, fontweight='bold')
+
+    return fig
