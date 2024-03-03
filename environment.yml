@@ -1,4 +1,3 @@
-name: riesgos
 channels:
   - conda-forge
   - defaults
@@ -325,4 +324,3 @@ dependencies:
       - simplejson==3.19.2
       - streamlit-echarts==0.4.0
       - yarg==0.1.9
-prefix: C:\Users\milow\miniconda3\envs\riesgos
