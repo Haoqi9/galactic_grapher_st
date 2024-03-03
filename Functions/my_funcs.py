@@ -434,7 +434,6 @@ def kdeplot_by_class(
 
     y_axis = plt.ylim()[1] / 2
     position_decrease = 1
-    y_axis_move = y_axis / position_decrease
     for index, median in zip(cats_indexes, cats_medians):
         ax.axvline(median, ls='--', alpha=0.2, color='blue')
         plt.annotate(
