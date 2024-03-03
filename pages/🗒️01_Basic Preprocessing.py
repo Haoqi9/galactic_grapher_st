@@ -301,7 +301,7 @@ st.dataframe(describe_custom(df[num_list]).round(2))
 st.write('- General descriptive analysis for **categorical features**:')
 
 # Cat features
-n_cols_per_row = 5
+n_cols_per_row = 4
 cols_list = [f'col{i}' for i in range(1, len(cat_list) + 1)]
 for i in range(0, len(cat_list) + 1, n_cols_per_row):
   cols_list_each = cols_list[i:i+n_cols_per_row]
