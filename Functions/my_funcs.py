@@ -155,7 +155,7 @@ def barh_plot(series,
 def cat_num_plots(data,
                        y,
                        x,
-                       sort=False,
+                       sort=True,
                        plot_type: Literal['box', 'violin']='box',
                        log_yscale=False,
                        n_adj_param=0.1,
@@ -194,7 +194,7 @@ def cat_num_plots(data,
       
     fig.suptitle(suptitle_text, fontsize=15, fontweight='bold')
     ax.set_title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, fontsize=8, ha='right')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, fontsize=9.5, ha='right')
 
     return fig
 
