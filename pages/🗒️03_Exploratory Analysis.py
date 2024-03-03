@@ -9,7 +9,8 @@ from Functions.my_funcs import (get_cramersV,
                                 association_barplot,
                                 scatteplots_wrt_y,
                                 cat_num_plots,
-                                class_balance_barhplot)
+                                class_balance_barhplot,
+                                kdeplot_by_class)
 
 ###############################################################################################################################
 
@@ -254,17 +255,11 @@ if submit is True:
             y_name=y_name,
           )
         elif y_dtype == 'categorical':
-          fig_num, ax = plt.subplots()
-          sns.kdeplot(
-            data=df,
-            x=num,
-            hue=y_name,
-            fill=True,
-            palette='tab10',
-            ax=ax
+          fig_num = kdeplot_by_class(
+            df=df,
+            x_num=num,
+            y_cat=y_name
           )
-          ax.set_ylabel('')
-          ax.set_xlabel('')
           fig_num.suptitle(num, fontweight='bold')
           
         col.pyplot(fig_num, use_container_width=True)
