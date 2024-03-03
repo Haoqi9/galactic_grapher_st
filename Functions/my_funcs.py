@@ -155,7 +155,7 @@ def barh_plot(series,
 def cat_num_plots(data,
                        y,
                        x,
-                       sort=True,
+                       sort=False,
                        plot_type: Literal['box', 'violin']='box',
                        log_yscale=False,
                        n_adj_param=0.1,
@@ -176,7 +176,7 @@ def cat_num_plots(data,
         raise Exception("Must choose between plot_type: ['violin', 'box']!")
 
     if log_yscale is True:
-        plt.yscale('log')
+        ax.set_yscale('log')
     
     if pd.api.types.is_categorical_dtype(data[x]):
         order = None
@@ -186,15 +186,15 @@ def cat_num_plots(data,
     sns.countplot(data=data, x=x, ax=ax.twinx(), color='gray', order=order, alpha=bar_alpha)
     for i, (category_v, group) in enumerate(data.groupby(x, sort=sort)):
         n = len(group)
-        plt.annotate(n, (i+n_adj_param, n), fontsize=n_size, color='blue')
+        ax.annotate(n, (i+n_adj_param, n), fontsize=n_size, color='blue')
 
     suptitle_text = f"{data[y].name} by {data[x].name}"
     if extra_title:
         suptitle_text += f" | {extra_title}"
       
-    plt.suptitle(suptitle_text, fontsize=15, fontweight='bold')
-    plt.title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
-    
+    fig.suptitle(suptitle_text, fontsize=15, fontweight='bold')
+    ax._set_title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
+    ax.set_xticks(rotation=45, fontsize=8, ha='right')
     return fig
 
 ###############################################################################################################################
