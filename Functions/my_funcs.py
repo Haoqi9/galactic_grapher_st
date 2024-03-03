@@ -152,26 +152,26 @@ def barh_plot(series,
 
 ###############################################################################################################################
 
-def cat_num_plots(data,
-                       y,
-                       x,
-                       sort=True,
-                       plot_type: Literal['box', 'violin']='box',
-                       log_yscale=False,
-                       n_adj_param=0.1,
-                       n_size=6.5,
-                       bar_alpha=0.1,
-                       extra_title=None,
-                       palette='tab10',
-                       **kwargs
-                       ):
+def cat_num_plots(
+    data: pd.DataFrame,
+    y: str,
+    x: str,
+    plot_type: Literal['box', 'violin']='box',
+    log_yscale=False,
+    n_adj_param=0.1,
+    n_size=6.5,
+    bar_alpha=0.1,
+    extra_title=None,
+    palette='tab10',
+    **kwargs
+):
 
     fig, axes = plt.subplots(figsize=(8,6))
 
     if plot_type == 'violin':
-        ax = sns.violinplot(data=data, y=y, x=x, palette=palette, ax=axes, **kwargs)
+        ax = sns.violinplot(data=data, y=y, x=x, hue=x, legend=False, palette=palette, ax=axes, **kwargs)
     elif plot_type == 'box':
-        ax = sns.boxplot(data=data, y=y, x=x, palette=palette, ax=axes, **kwargs)
+        ax = sns.boxplot(data=data, y=y, x=x, hue=x, legend=False, palette=palette, ax=axes, **kwargs)
     else:
         raise Exception("Must choose between plot_type: ['violin', 'box']!")
 
@@ -182,7 +182,16 @@ def cat_num_plots(data,
         order = None
     else:
         order = data[x].unique()
-        
+    
+    if data[x].dtype.name == 'object':
+        sort = False
+    elif data[x].dtype.name == 'category':
+        sort = True
+    else:
+        # Cover dummified cats.
+        sort = False
+        # raise TypeError(f"{x} variable is neither of object nor category dtype. It is {data[x].dtype.name}!")
+    
     sns.countplot(data=data, x=x, ax=ax.twinx(), color='gray', order=order, alpha=bar_alpha)
     for i, (category_v, group) in enumerate(data.groupby(x, sort=sort)):
         n = len(group)

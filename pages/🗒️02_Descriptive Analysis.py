@@ -31,24 +31,26 @@ st.header('Upload data file')
 data_file = st.file_uploader(
   label='',
   accept_multiple_files=False,
-  type=['csv', 'xlsx', 'pkl']
+  type=['csv', 'xlsx', 'pkl', 'dta', 'sas7bdat']
 )
 
 @st.cache_data
 def convert_to_df(data_file):
   if data_file.name.endswith('.csv'):
-      df = pd.read_csv(data_file)
+    df = pd.read_csv(data_file)
   elif data_file.name.endswith('.pkl'):
-      df = pd.read_pickle(data_file)
+    df = pd.read_pickle(data_file)
   elif data_file.name.endswith('.xlsx'):
-      df = pd.read_excel(data_file)
-  else:
-    raise Exception('This APP currently accepts only one of these file extensions: [csv, pkl, xlsx]')
+    df = pd.read_excel(data_file)
+  elif data_file.name.endswith('.dta'):
+    df = pd.read_stata(data_file)
+  elif data_file.name.endswith('.sas7bdat'):
+    df = pd.read_sas(data_file)
   return df
 
 if data_file is None:
-  st.info('Please, upload a data file to begin with!')
-  st.info('- Allowed extensions so far: csv, xlsx, pkl.')
+  st.info('Please upload a data file to begin with!')
+  st.info('- Allowed extensions so far: csv, xlsx, pkl, dta, sas7bdat.')
   st.stop()
 else:
   df = convert_to_df(data_file)
@@ -195,7 +197,7 @@ if submit is True:
         if n_unique_cats > 25:
           col.write(f"`{df[cat].name}` has too many categories **{n_unique_cats}** > 20")
           col.write('Unique categories:')
-          col.write(pd.DataFrame(df[cat].unique(), columns=['Category']).T)
+          col.dataframe(pd.DataFrame(df[cat].unique(), columns=['Category']))
         else:
           fig_barh = barh_plot(
             series=df[cat],
