@@ -183,18 +183,18 @@ def cat_num_plots(data,
     else:
         order = data[x].unique()
         
-    sns.countplot(data=data, x=x, ax=axes.twinx(), color='gray', order=order, alpha=bar_alpha)
+    sns.countplot(data=data, x=x, ax=ax.twinx(), color='gray', order=order, alpha=bar_alpha)
     for i, (category_v, group) in enumerate(data.groupby(x, sort=sort)):
         n = len(group)
-        axes.annotate(n, (i+n_adj_param, n), fontsize=n_size, color='blue')
+        plt.annotate(n, (i+n_adj_param, n), fontsize=n_size, color='blue')
 
     suptitle_text = f"{data[y].name} by {data[x].name}"
     if extra_title:
         suptitle_text += f" | {extra_title}"
       
-    fig.suptitle(suptitle_text, fontsize=15, fontweight='bold')
-    axes.set_title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
-    axes.set_xticklabels(ax.get_xticklabels(), rotation=45, fontsize=9.5, ha='right')
+    plt.suptitle(suptitle_text, fontsize=15, fontweight='bold')
+    plt.title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
+    plt.xticks(rotation=45, fontsize=9.5, ha='right')
 
     return fig
 
