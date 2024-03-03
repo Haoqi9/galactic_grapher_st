@@ -194,7 +194,7 @@ def cat_num_plots(data,
       
     plt.suptitle(suptitle_text, fontsize=15, fontweight='bold')
     plt.title(f"n = {data[x].count()}/{data[x].size} | n_unique = {data[x].nunique()}", fontsize=10)
-    plt.xticks(rotation=45, fontsize=9.5, ha='right')
+    axes.tick_params(axis='x', rotation=45, labelsize=9.5, labelrotation=45)
 
     return fig
 
