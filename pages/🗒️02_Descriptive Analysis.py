@@ -11,7 +11,7 @@ st.set_page_config(
   page_title='02_Descriptive Analysis',
   page_icon="./Images/astr.jpg",
   layout='wide',
-  initial_sidebar_state='expanded'
+  initial_sidebar_state='auto'
 )
 
 ###############################################################################################################################
@@ -76,6 +76,10 @@ else:
     df.dropna(inplace=True)
     st.warning(f"- **{data_file.name}** contains **{n_missing} missing values**! For visualization purposes, they are dropped.")
     st.warning(f"- After dropping NaN: **{df.shape[0]}** rows and **{df.shape[1]}** columns.")
+
+# Show df (expander)
+with st.expander('**See data file content**'):
+  st.dataframe(df)
 
 ###############################################################################################################################
 
