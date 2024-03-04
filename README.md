@@ -4,6 +4,8 @@
 
 ✨ A descriptive data analysis web app that encompasses from basic data preprocessing to EDA! ✨
 
+👉 [Click here to access web app](https://galacticgrapherst-lj3kqinzmrckvsdu6sslnd.streamlit.app/)
+
 ---
 
 ## DESCRIPTION
