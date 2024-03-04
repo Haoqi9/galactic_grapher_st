@@ -34,7 +34,8 @@ with title2:
   st.write("# 💫 GALACTIC GRAPHER 💫")
   st.write('___')
   st.write('✨ A descriptive data analysis web app that encompasses from basic data preprocessing to EDA! ✨')
-  st.caption('🛠️ Created by: **Hao, Qi**')
+  st.caption('💡 **Created by**: Hao, Qi')
+  st.caption('🛠️ **Source code**: https://github.com/Haoqi9/galactic_grapher_st')
   st.caption('📩 **Contact**: kamitttt98@gmail.com')
   
 st.write('___')
