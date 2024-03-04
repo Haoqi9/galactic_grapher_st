@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import csv
 from Functions.my_funcs import describe_custom
 
 ###############################################################################################################################
@@ -31,30 +32,40 @@ st.header('Upload data file')
 data_file = st.file_uploader(
   label='',
   accept_multiple_files=False,
-  type=['csv', 'xlsx', 'pkl', 'dta', 'sas7bdat']
+  type=['csv', 'xlsx', 'pkl']
 )
 
 @st.cache_data
 def convert_to_df(data_file):
   if data_file.name.endswith('.csv'):
-    df = pd.read_csv(data_file)
+    chunk = data_file.read(8000)
+    dialect = csv.Sniffer().sniff(str(chunk))
+    inf_delimiter = dialect.delimiter
+    data_file.seek(0)
+    df = pd.read_csv(data_file, sep=inf_delimiter)
+    return (df, inf_delimiter)
+    
   elif data_file.name.endswith('.pkl'):
     df = pd.read_pickle(data_file)
+    return df
+  
   elif data_file.name.endswith('.xlsx'):
     df = pd.read_excel(data_file)
-  elif data_file.name.endswith('.dta'):
-    df = pd.read_stata(data_file)
-  elif data_file.name.endswith('.sas7bdat'):
-    df = pd.read_sas(data_file)
-  return df
+    return df
 
 if data_file is None:
   st.info('Please upload a data file to begin with!')
-  st.info('- Allowed extensions so far: csv, xlsx, pkl, dta, sas7bdat.')
+  st.info('- Allowed extensions so far: csv, xlsx, pkl.')
   st.stop()
 else:
-  df = convert_to_df(data_file)
-  st.success(f'**{data_file.name}** has been successfully uploaded!')
+  # csv files
+  if data_file.name.endswith('.csv'):
+    df, inf_delimiter = convert_to_df(data_file)
+    st.success(f"**{data_file.name}** (Inferred delimiter = '**{inf_delimiter}**') has been successfully uploaded!")
+  # Other extensions
+  else:
+    df = convert_to_df(data_file)
+    st.success(f'**{data_file.name}** has been successfully uploaded!')
 
 ###############################################################################################################################
 
@@ -170,14 +181,14 @@ st.write('___')
 st.header("Missing Values")
 n_missing_rows = df.apply(lambda x: x.isna().sum(), axis=1).gt(0).sum()
 st.caption(f'- Number of rows with missing values (at least 1 feature missing): **{n_missing_rows}**.')
-st.caption('- Percentage of missing values for each feature:')
-df_missing_pct = pd.DataFrame([df[col].isna().mul(100).mean().round(2) for col in df.columns], index=df.columns, columns=['Missing (%)'])
-st.dataframe(df_missing_pct)
 
 # If any missing:
 if n_missing_rows > 0:
   st.caption('- DataFrame with missing entries:')
   st.dataframe(df.loc[df.apply(lambda x: x.isna().sum(), axis=1).gt(0)])
+  st.caption('- Percentage of missing values for each feature:')
+  df_missing_pct = pd.DataFrame([df[col].isna().mul(100).mean().round(2) for col in df.columns], index=df.columns, columns=['Missing (%)'])
+  st.dataframe(df_missing_pct)
 
 # *********** Choose modifications to df ***********
 
@@ -355,7 +366,8 @@ if missing_handling == 'Imputed':
     
 cols_dropped = df_original.columns.difference(df.columns).tolist()
 st.info(f"- Columns dropped: **{cols_drop}**")
-st.write(cols_dropped)
+if cols_drop is True:
+  st.write(cols_dropped)
 
 st.info(f"- Changes to identification of column data type: **{change_dtypes}**")
 if change_dtypes is True:

@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import scipy.stats as stats
+import csv
 from Functions.my_funcs import (get_cramersV,
                                 get_cramersV_matrix,
                                 association_barplot,
@@ -40,36 +41,50 @@ st.header('Upload data file')
 data_file = st.file_uploader(
   label='',
   accept_multiple_files=False,
-  type=['csv', 'xlsx', 'pkl', 'dta', 'sas7bdat']
+  type=['csv', 'xlsx', 'pkl']
 )
 
 @st.cache_data
 def convert_to_df(data_file):
   if data_file.name.endswith('.csv'):
-    df = pd.read_csv(data_file)
+    chunk = data_file.read(8000)
+    dialect = csv.Sniffer().sniff(str(chunk))
+    inf_delimiter = dialect.delimiter
+    data_file.seek(0)
+    df = pd.read_csv(data_file, sep=inf_delimiter)
+    return (df, inf_delimiter)
+    
   elif data_file.name.endswith('.pkl'):
     df = pd.read_pickle(data_file)
+    return df
+  
   elif data_file.name.endswith('.xlsx'):
     df = pd.read_excel(data_file)
-  elif data_file.name.endswith('.dta'):
-    df = pd.read_stata(data_file)
-  elif data_file.name.endswith('.sas7bdat'):
-    df = pd.read_sas(data_file)
-  return df
+    return df
 
 if data_file is None:
   st.info('Please upload a data file to begin with!')
-  st.info('- Allowed extensions so far: csv, xlsx, pkl, dta, sas7bdat.')
+  st.info('- Allowed extensions so far: csv, xlsx, pkl.')
   st.stop()
 else:
-  df = convert_to_df(data_file)
+  # csv files
+  if data_file.name.endswith('.csv'):
+    df, inf_delimiter = convert_to_df(data_file)
+    st.success(f"**{data_file.name}** (Inferred delimiter = '**{inf_delimiter}**') has been successfully uploaded!")
+  # Other extensions
+  else:
+    df = convert_to_df(data_file)
+    st.success(f'**{data_file.name}** has been successfully uploaded!')
+  
+  # Df info.
   df_info = st.info(f'**{data_file.name}** contains **{df.shape[0]}** rows and **{df.shape[1]}** columns!')
-  # Check NaN.
+  # Check presence of NaN.
   n_missing = df.isna().sum().sum()
   if n_missing > 0:
     df_info.empty()
     df.dropna(inplace=True)
-    st.warning(f'**{data_file.name}** contains **{n_missing} missing values**! For visualization purposes, they are dropped. Rows after dropping NaN: **{df.shape[0]}**')
+    st.warning(f"- **{data_file.name}** contains **{n_missing} missing values**! For visualization purposes, they are dropped.")
+    st.warning(f"- After dropping NaN: **{df.shape[0]}** rows and **{df.shape[1]}** columns.")
 
 ###############################################################################################################################
 
