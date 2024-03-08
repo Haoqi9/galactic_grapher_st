@@ -143,7 +143,7 @@ def barh_plot(series,
     
     axes.set_ylabel('')
     fig.suptitle(suptitle_text, fontsize=15, fontweight='bold')
-    axes.set_title(f"n = {series.count()}/{series.size} | sort = {sort}")
+    axes.set_title(f"n = {series.count()}/{series.size} | n_unique = {series.nunique()} | sort = {sort}")
     # Set xlimit
     _, xlim_r = axes.get_xlim()
     axes.set_xlim(right=xlim_r*xlim_expansion)
