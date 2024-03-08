@@ -240,7 +240,7 @@ if submit is True:
     
     if len(num_list) > 1:
       if y_dtype == 'numerical':
-        df_corr_matrix = X[pearson_list].join(y).corr()
+        df_corr_matrix = X[num_list].join(y).corr()
       else:
         df_corr_matrix = X[num_list].corr()
       fig_pearson, ax = plt.subplots()
