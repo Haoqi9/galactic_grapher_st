@@ -223,7 +223,7 @@ if submit is True:
   with tab2:
     # Crammer corr matrix
     df_crammer_matrix = get_cramersV_matrix(
-      df=X
+      df=X.join(y)
     )
     
     fig_cramer, ax = plt.subplots()
@@ -239,7 +239,10 @@ if submit is True:
     st.pyplot(fig_cramer, use_container_width=True)
     
     if len(num_list) > 1:
-      df_corr_matrix = X[num_list].corr()
+      if y_dtype == 'numerical':
+        df_corr_matrix = X[num_list + [y_name]].corr()
+      else:
+        df_corr_matrix = X[num_list].corr()
       fig_pearson, ax = plt.subplots()
       sns.heatmap(
         data=df_corr_matrix.round(2),
