@@ -132,8 +132,9 @@ with st.sidebar:
   num_list_default = sorted(num_list)
   cat_list_default = sorted(cat_list)
   
-  # Define Xs.
   with st.form('variables'):
+    
+    # Define Xs.
     num_box = st.multiselect(
       label='Choose **numerical features** of interest:',
       options=X.columns.tolist(),
@@ -146,6 +147,14 @@ with st.sidebar:
       default=cat_list_default,
     )
     
+    # Get heatmaps (among Xs): computational expensive if n/features are large!
+    get_heatmap = st.radio(
+      label='Whether to calculate **correlation matrices** among features...',
+      help='Recommended not to calculate them **if sample size/number of features are large**; computationally expensive.',
+      options=['Yes', 'No']
+    )
+    
+    # Form submit bottom!
     submit = st.form_submit_button('SUBMIT')
   
   if submit is True:
@@ -221,44 +230,47 @@ if submit is True:
   
   # Assoc among Xs
   with tab2:
-    # Crammer corr matrix
-    df_crammer_matrix = get_cramersV_matrix(
-      df=X.join(y)
-    )
-    
-    fig_cramer, ax = plt.subplots()
-    sns.heatmap(
-      data=df_crammer_matrix.round(2),
-      annot=True,
-      annot_kws={'fontsize': 4},
-      cmap='Reds',
-      vmin=0, vmax=1,
-      ax=ax
-    )
-    fig_cramer.suptitle("Cramer's V correlation matrix among Xs (all)", fontweight='bold')
-    st.pyplot(fig_cramer, use_container_width=True)
-    
-    if len(num_list) > 1:
-      if y_dtype == 'numerical':
-        df_corr_matrix = X[num_list].join(y).corr()
-      else:
-        df_corr_matrix = X[num_list].corr()
-      fig_pearson, ax = plt.subplots()
+    if get_heatmap == 'Yes':
+      # Crammer corr matrix
+      df_crammer_matrix = get_cramersV_matrix(
+        df=X.join(y)
+      )
+      
+      fig_cramer, ax = plt.subplots()
       sns.heatmap(
-        data=df_corr_matrix.round(2),
+        data=df_crammer_matrix.round(2),
         annot=True,
         annot_kws={'fontsize': 4},
-        cmap='coolwarm',
-        vmin=-1, vmax=1,
+        cmap='Reds',
+        vmin=0, vmax=1,
         ax=ax
       )
-      fig_pearson.suptitle("Pearson correlation matrix among Xs (numerical)", fontweight='bold')
-      st.pyplot(fig_pearson, use_container_width=True)
+      fig_cramer.suptitle("Cramer's V correlation matrix among Xs (all)", fontweight='bold')
+      st.pyplot(fig_cramer, use_container_width=True)
       
-    progress__actual = np.round(n_vars_processed * progress_per_var, 2)
-    progress_text_r = f"⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**)."
-    progress_bar.progress(progress__actual, text=progress_text_r)
-    n_vars_processed += 1
+      if len(num_list) > 1:
+        if y_dtype == 'numerical':
+          df_corr_matrix = X[num_list].join(y).corr()
+        else:
+          df_corr_matrix = X[num_list].corr()
+        fig_pearson, ax = plt.subplots()
+        sns.heatmap(
+          data=df_corr_matrix.round(2),
+          annot=True,
+          annot_kws={'fontsize': 4},
+          cmap='coolwarm',
+          vmin=-1, vmax=1,
+          ax=ax
+        )
+        fig_pearson.suptitle("Pearson correlation matrix among Xs (numerical)", fontweight='bold')
+        st.pyplot(fig_pearson, use_container_width=True)
+        
+      progress__actual = np.round(n_vars_processed * progress_per_var, 2)
+      progress_text_r = f"⌛ `CREATING VISUALIZATIONS...` (**{progress__actual:.0%}**)."
+      progress_bar.progress(progress__actual, text=progress_text_r)
+      n_vars_processed += 1
+    else:
+      st.write('## No Calculations for Correlation Matrices.')
   
   # Numerical Xs
   with tab3:
