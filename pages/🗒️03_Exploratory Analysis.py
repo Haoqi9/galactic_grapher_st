@@ -207,8 +207,13 @@ if submit is True:
   
   all_list = num_list + cat_list
   # +2: 'Best Xs' and 'Among Xs' plots.
-  progress_per_var = 1.0 / (len(all_list) +2)
-  n_vars_processed = 1  # Avoid first iteration 0.
+  if get_heatmap == 'Yes':
+    progress_per_var = 1.0 / (len(all_list) +2)
+    n_vars_processed = 1 # Avoid first iteration 0.
+    
+  elif get_heatmap == 'No':
+    progress_per_var = 1.0 / len(all_list)
+    n_vars_processed = 0
 
   # Visualizations running...
   tab1, tab2, tab3, tab4 = st.tabs(['🎯Best Xs', '♻️Among Xs', '📈Numerical features', '📶Categorical features'])
