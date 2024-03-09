@@ -188,8 +188,8 @@ def cat_num_plots(
     elif data[x].dtype.name == 'category':
         sort = True
     else:
-        # Cover dummified cats.
-        sort = False
+        # Convert dummified cats.
+        sort = True
         # raise TypeError(f"{x} variable is neither of object nor category dtype. It is {data[x].dtype.name}!")
     
     sns.countplot(data=data, x=x, ax=ax.twinx(), color='gray', order=order, alpha=bar_alpha)
