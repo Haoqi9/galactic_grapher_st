@@ -5,7 +5,9 @@
 ✨ A descriptive data analysis web app that encompasses from basic data preprocessing to EDA! ✨
 
 👉 [Click here to access web app](https://galacticgrapherst-lj3kqinzmrckvsdu6sslnd.streamlit.app/) <br>
-NOTE: This app **goes into sleep mode if it's been idle for 7 days**. If this is the case, feel free to reach out to me via email (kamitttt98@gmail.com) so I can get it back up and running!
+- NOTE: This app **goes into sleep mode if it's been idle for 7 days**. If this is the case, feel free to reach out to me via email (kamitttt98@gmail.com) so I can get it back up and running!
+
+- **Alternatively, you can clone this repository to your local machine**, set the folder as your working directory in the conda terminal, ensure you have installed the modules listed in the `requirements.txt file`, and then run the command `streamlit run Homepage.py`.
 
 ---
 
