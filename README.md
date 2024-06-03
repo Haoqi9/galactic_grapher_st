@@ -28,12 +28,18 @@
   
 `Very important`: *when switching pages, progress in the current page will be deleted and data file needs to be reuploaded*.
 
+#### DEMO
+![basic_prep](https://github.com/Haoqi9/galactic_grapher_st/assets/159468032/7a3aafd7-71c5-4311-9c11-1e096a18577f)
+
 ### 02_Descriptive Analysis
 
 - The second page, "02_Descriptive Analysis," is dedicated to **visualizing the distribution of both numerical and categorical variables** within the dataframe.
 - The platform initially identifies numerical and categorical features present in the data file, but users have the flexibility to assign the data type for each feature as needed.
 - For selected numerical features, the platform displays box plots and histograms, while for categorical features, it presents horizontal bar plots. In cases where categorical features have more than 20 categories (high cardinality), a wide format DataFrame is displayed instead.
 - Visualizations in this page are **divided into 2 tabs**: one for numerical and the other for categorical plots.
+
+#### DEMO
+![descr](https://github.com/Haoqi9/galactic_grapher_st/assets/159468032/bf57dff6-0410-4eef-aaf4-191f16d784a1)
 
 ### 03_Exploratory Analysis
 
@@ -43,6 +49,12 @@
   2. **Among Xs**: a heatmap of Cramer's-correlation matrix among all features. If there are at least 2 numerical features, a heatmap of Pearson correlation matrix for these variables are displayed as well. 
   3. **Numerical features**: Kernel density distribution plots are shown *if the target variable is categorical* and scatter plots with fitted regression line *if the target is numerical* as well.
   4. **Categorical features**: Stacked horizontal bar plots are shown *if the target is categorical* too and box plots *if the target is numerical*.
+
+#### DEMO (categorical y)
+![cat_expl](https://github.com/Haoqi9/galactic_grapher_st/assets/159468032/aa352faf-9e91-43e6-a0be-17ae96cd9395)
+
+#### DEMO (numerical y)
+![num_expl](https://github.com/Haoqi9/galactic_grapher_st/assets/159468032/ca90dbfc-2b99-413d-aa48-986d69701707)
 
 ---
 
